@@ -1,0 +1,4 @@
+org.springframework.context.ApplicationListener=\
+com.lplb.sys.core.listener.ConstantsInitListener,\
+com.lplb.sys.core.listener.TimerTaskRunListener,\
+com.lplb.sys.core.listener.RemoveRequestParamListener

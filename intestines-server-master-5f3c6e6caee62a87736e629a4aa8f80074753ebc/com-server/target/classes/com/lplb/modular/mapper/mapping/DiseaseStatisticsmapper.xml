@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lplb.modular.mapper.DiseaseStatisticsMapper">
+
+
+    <select id="intestinalDiseases" resultType="com.lplb.modular.model.vo.StatisticsVo">
+        SELECT
+            m.disease AS `key`,
+            COUNT(m.disease) AS `value`
+        FROM in_disease_statistics m
+        WHERE m.disease != 'NA'
+        GROUP BY m.disease
+    </select>
+
+    <select id="top10Genes"  resultType="com.lplb.modular.model.vo.StatisticsVo">
+	    SELECT
+            m.disease_related_genes AS `key`,
+            COUNT(m.disease_related_genes) AS `value`
+        FROM in_disease_statistics m
+        WHERE m.disease_related_genes != 'NA'
+        GROUP BY m.disease_related_genes
+        ORDER BY `value` DESC
+        LIMIT 10
+    </select>
+</mapper>
+

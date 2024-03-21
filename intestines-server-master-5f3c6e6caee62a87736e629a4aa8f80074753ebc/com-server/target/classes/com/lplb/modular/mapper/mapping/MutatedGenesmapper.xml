@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lplb.modular.mapper.MutatedGenesMapper">
+
+    <select id="top10MutatedGenes" resultType="com.lplb.modular.model.vo.StatisticsVo">
+        SELECT
+            m.gene_name AS `key`,
+            COUNT(m.gene_name) AS `value`
+        FROM in_mutated_genes m
+        GROUP BY m.gene_name
+        ORDER BY `value` DESC
+        LIMIT 10
+    </select>
+</mapper>
+

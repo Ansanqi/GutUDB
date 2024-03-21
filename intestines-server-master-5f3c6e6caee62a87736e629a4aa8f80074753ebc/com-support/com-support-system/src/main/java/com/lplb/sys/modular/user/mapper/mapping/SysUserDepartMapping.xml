@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lplb.sys.modular.user.mapper.SysUserDepartMapper">
+    <resultMap type="com.lplb.sys.modular.user.entity.SysUserDepart" id="SysUserDepartMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="userId" column="user_id" jdbcType="INTEGER"/>
+        <result property="depId" column="dep_id" jdbcType="INTEGER"/>
+    </resultMap>
+    <delete id="deleteUserDepart">
+        DELETE
+        FROM sys_user_depart
+        WHERE user_id = #{userId}
+    </delete>
+    <select id="getUserPageForDepart" resultType="java.util.Map">
+        SELECT sud.id AS rId,su.id AS userId, su.name AS userName, su.account AS account,su.phone AS phone
+        FROM sys_user su
+        INNER JOIN sys_emp se ON su.id=se.id AND se.org_id=#{orgId}
+        INNER JOIN sys_user_depart sud on su.id = sud.user_id AND sud.dep_id=#{deptId}
+        WHERE su.status != 2
+        <if test="keyword != null and keyword != ''">
+            AND (su.account LIKE CONCAT('%'#{keyword},'%') OR su.name LIKE CONCAT('%'#{keyword},'%') OR su.phone LIKE
+            CONCAT('%',#{keyword},'%'))
+        </if>
+        ORDER BY su.id DESC
+    </select>
+    <select id="getUserDepartInfo" resultType="java.util.Map">
+        SELECT
+               sud.dep_id AS depId,
+               sd.depart_name AS depName,
+               sud.user_id AS userId
+        FROM
+             sys_user_depart sud
+                 INNER JOIN sys_depart sd ON sud.dep_id=sd.id AND sd.org_id=#{orgId}
+        WHERE sud.user_id IN
+        <foreach collection="userList" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+</mapper>
+

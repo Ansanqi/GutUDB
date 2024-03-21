@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lplb.modular.mapper.SpeciesMapper">
+
+    <select id="generaAssociatedWithIntestinalDiseases" resultType="com.lplb.modular.model.vo.StatisticsVo">
+        SELECT
+            m.species_name AS `key`,
+            COUNT(m.species_name) AS `value`
+        FROM in_species m
+        WHERE m.species_name != 'NA'
+        GROUP BY m.species_name
+        ORDER BY `value` DESC
+    </select>
+</mapper>
+

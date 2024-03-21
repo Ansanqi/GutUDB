@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lplb.modular.mapper.ProbioticsMapper">
+
+    <select id="probioticsStatistics" resultType="com.lplb.modular.model.vo.StatisticsVo">
+        SELECT
+            m.probiotics AS `key`,
+            COUNT(m.probiotics) AS `value`
+        FROM in_probiotics m
+        WHERE m.probiotics != 'NA'
+        GROUP BY m.probiotics
+    </select>
+
+    <select id="top10ProbioticsAssociatedWithIntestinalDiseases" resultType="com.lplb.modular.model.vo.StatisticsVo">
+        SELECT
+            m.probiotics AS `key`,
+            COUNT(m.probiotics) AS `value`
+        FROM in_probiotics m
+        WHERE m.probiotics != 'NA'
+        GROUP BY m.probiotics
+        ORDER BY `value` DESC
+        LIMIT 10
+    </select>
+</mapper>
+

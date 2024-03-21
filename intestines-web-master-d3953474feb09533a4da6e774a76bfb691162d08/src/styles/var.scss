@@ -1,0 +1,42 @@
+$themeColor: #00c0c9;
+$fontColor1: #4c4c4c;
+$fontColor2: #666666;
+$fontColor3: #999999;
+$separatorColor: #dfe3e7;
+$backgroundColor: #f8f8f8;
+$tipsColor: #fecd2f;
+$tableBg: rgba(242, 251, 251, 0.5);
+
+$fontSize14: 14px;
+$fontSize16: 16px;
+$fontSize18: 18px;
+$fontSize20: 20px;
+$fontSize22: 22px;
+$fontSize24: 24px;
+$fontSize26: 26px;
+$fontSize28: 28px;
+$fontSize30: 30px;
+
+$vw_base: 1920;
+@function vw($px) {
+	@return ($px / $vw_base) * 100vw;
+}
+
+@font-face {
+	font-family: "AlibabaPuHuiTi-Light"; /* Project id 4202095 */
+	src: url("../font/AlibabaPuHuiTi-3-45-Light.woff2") format("woff2"),
+			url("../font/AlibabaPuHuiTi-3-45-Light.woff") format("woff"),
+			url("../font/AlibabaPuHuiTi-3-45-Light.ttf") format("ttf");
+}
+@font-face {
+	font-family: "AlibabaPuHuiTi-Regular"; /* Project id 4202095 */
+	src: url("../font/AlibabaPuHuiTi-3-55-Regular.woff2") format("woff2"),
+	url("../font/AlibabaPuHuiTi-3-55-Regular.woff") format("woff"),
+	url("../font/AlibabaPuHuiTi-3-55-Regular.ttf") format("ttf");
+}
+@font-face {
+	font-family: "AlibabaPuHuiTi-Medium"; /* Project id 4202095 */
+	src: url("../font/AlibabaPuHuiTi-3-65-Medium.woff2") format("woff2"),
+	url("../font/AlibabaPuHuiTi-3-65-Medium.woff") format("woff"),
+	url("../font/AlibabaPuHuiTi-3-65-Medium.ttf") format("ttf");
+}

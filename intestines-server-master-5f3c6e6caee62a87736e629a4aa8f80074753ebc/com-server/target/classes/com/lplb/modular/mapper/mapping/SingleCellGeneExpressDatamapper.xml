@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lplb.modular.mapper.SingleCellGeneExpressDataMapper">
+
+    <select id="clusterStatistics" resultType="com.lplb.modular.model.vo.StatisticsVo">
+        SELECT
+            m.cluster AS `key`,
+            COUNT(m.cluster) AS `value`
+        FROM in_single_cell_gene_express_data m
+        WHERE m.cluster != 'NA'
+        GROUP BY m.cluster
+    </select>
+</mapper>
+

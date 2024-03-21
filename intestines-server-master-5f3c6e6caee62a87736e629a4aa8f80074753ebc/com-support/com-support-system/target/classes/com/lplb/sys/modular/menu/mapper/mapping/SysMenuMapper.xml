@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lplb.sys.modular.menu.mapper.SysMenuMapper">
+    <delete id="removeRoleMenu">
+        DELETE FROM sys_role_menu WHERE role_id=#{roleId}
+    </delete>
+
+    <select id="getRoleMenuIds" resultType="java.lang.String">
+        SELECT menu_id FROM sys_role_menu WHERE role_id IN
+        <foreach collection="roleIds" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+    <select id="getUserTopMenus" resultType="java.util.Map">
+        SELECT
+        id AS menuId,
+        name AS title,
+        icon AS icon,
+        create_time AS createTime,
+        component AS component,
+        authority AS authority,
+        router AS path,
+        type AS menuType,
+        sort AS sortNumber
+        FROM sys_menu WHERE pid=0 AND type=0
+        AND id IN
+        <foreach collection="userMenusIds" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        ORDER BY sort
+    </select>
+    <select id="getMenusByParentIdAndRole" resultType="java.util.Map">
+        SELECT
+        id AS menuId,
+        name AS title,
+        icon AS icon,
+        component AS component,
+        create_time AS createTime,
+        authority AS authority,
+        router AS path,
+        type AS menuType,
+        sort AS sortNumber
+        FROM sys_menu WHERE pid=#{menuId} AND type=0
+        AND id IN
+        <foreach collection="menuIds" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        ORDER BY sort
+    </select>
+    <select id="getMenuPage" resultType="java.util.Map">
+        SELECT
+        id AS menuId,
+        name AS title,
+        icon AS icon,
+        component AS component,
+        create_time AS createTime,
+        router AS path,
+        type AS menuType,
+        visible AS visible,
+        permission AS permission,
+        open_type AS openType,
+        authority AS authority,
+        sort AS sortNumber,
+        pid AS parentId
+        FROM sys_menu WHERE status=0
+        ORDER BY sort
+    </select>
+    <select id="getRoleMenus" resultType="java.util.Map">
+        SELECT
+        sm.id AS menuId,
+        sm.name AS title,
+        sm.icon AS icon,
+        sm.component AS component,
+        sm.create_time AS createTime,
+        sm.router AS path,
+        sm.type AS menuType,
+        sm.pid AS parentId,
+        sm.sort AS sortNumber,
+        !ISNULL(srm.id) AS checked
+        FROM sys_menu sm
+        LEFT JOIN sys_role_menu srm ON sm.id = srm.menu_id AND srm.role_id=#{roleId}
+        WHERE sm.status=0
+        ORDER BY sort
+    </select>
+</mapper>

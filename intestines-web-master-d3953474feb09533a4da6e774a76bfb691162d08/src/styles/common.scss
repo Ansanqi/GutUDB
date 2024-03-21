@@ -1,0 +1,180 @@
+body {
+	font-family: "AlibabaPuHuiTi-Regular", "PingFang SC", "Microsoft YaHei", sans-serif;
+}
+
+// 页面wrap
+.wrap {
+	// width: 100vw;
+	// height: 100vh;
+	width: 100%;
+	height: 100%;
+	overflow-y: auto;
+	background-color: #f7faff;
+}
+.content {
+	margin: 0 40px 40px;
+	background-color: white;
+	border-radius: 4px;
+	padding: 40px;
+	position: relative;
+}
+
+// 全局class
+.separator_line {
+	height: 1px;
+	width: 100%;
+	background-color: $separatorColor;
+}
+.require::before {
+	margin-right: 2px;
+	color: red;
+	content: "*";
+}
+
+.cup {
+	cursor: pointer;
+}
+
+// 禁止文字双击选中
+.select_none {
+	-webkit-user-select: none; /* Chrome, Safari, Opera */
+	-moz-user-select: none; /* Firefox */
+	-ms-user-select: none; /* Internet Explorer/Edge */
+	user-select: none; /* 取消所有用户选择 */
+}
+
+// flex布局
+.df {
+	display: flex;
+}
+
+.fdc {
+	flex-direction: column;
+}
+
+.gap20 {
+	gap: 20px;
+}
+.gap10 {
+	gap: 10px;
+}
+
+.jcc {
+	justify-content: center;
+}
+
+.df_jcc {
+	display: flex;
+	justify-content: center;
+}
+
+.aic {
+	align-items: center;
+}
+
+.df_jcc_aic {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.jc_sb {
+	justify-content: space-between;
+}
+
+.flex_wrap {
+	flex-wrap: wrap;
+}
+.flex1 {
+	flex: 1;
+}
+
+// 字体
+.fwb {
+	font-weight: bold;
+}
+
+// 间距
+.mb0 {
+	margin-bottom: 0 !important;
+}
+.mt10 {
+	margin-top: 10px;
+}
+.mt20 {
+	margin-top: 20px;
+}
+.mr20 {
+	margin-right: 20px;
+}
+.mb20 {
+	margin-bottom: 20px;
+}
+.ml20 {
+	margin-left: 20px;
+}
+.mt30 {
+	margin-top: 30px;
+}
+.mr30 {
+	margin-right: 30px;
+}
+.mb30 {
+	margin-bottom: 30px;
+}
+.ml30 {
+	margin-left: 30px;
+}
+.mt40 {
+	margin-top: 40px;
+}
+.mr40 {
+	margin-right: 40px;
+}
+.mb40 {
+	margin-bottom: 40px;
+}
+.ml40 {
+	margin-left: 40px;
+}
+.pd20 {
+	padding: 20px;
+}
+.pt20 {
+	padding-top: 20px;
+}
+.pr20 {
+	padding-right: 20px;
+}
+.pb20 {
+	padding-bottom: 20px;
+}
+.pl20 {
+	padding-left: 20px;
+}
+.pt30 {
+	padding-top: 30px;
+}
+.pr30 {
+	padding-right: 30px;
+}
+.pb30 {
+	padding-bottom: 30px;
+}
+.pl30 {
+	padding-left: 30px;
+}
+.pt40 {
+	padding-top: 40px;
+}
+.pr40 {
+	padding-right: 40px;
+}
+.pb40 {
+	padding-bottom: 40px;
+}
+.pl40 {
+	padding-left: 40px;
+}
+
+@import url(../font/iconfont.css);

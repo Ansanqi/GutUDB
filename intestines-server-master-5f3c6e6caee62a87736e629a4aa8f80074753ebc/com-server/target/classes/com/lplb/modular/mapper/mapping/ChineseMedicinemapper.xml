@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lplb.modular.mapper.ChineseMedicineMapper">
+
+    <select id="chineseMedicineStatistics" resultType="com.lplb.modular.model.vo.StatisticsVo">
+        SELECT
+            m.herbs_associated_with_this_disease AS `key`,
+            COUNT(m.herbs_associated_with_this_disease) AS `value`
+        FROM in_chinese_medicine m
+        WHERE m.herbs_associated_with_this_disease != 'NA'
+        GROUP BY m.herbs_associated_with_this_disease
+        ORDER BY `value` DESC
+    </select>
+</mapper>
+

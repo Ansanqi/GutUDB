@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lplb.sys.modular.user.mapper.SysUserMapper">
+
+    <resultMap id="sysUserResult" type="com.lplb.sys.modular.user.result.SysUserResult">
+        <id column="id" property="id"/>
+        <result column="account" property="account"/>
+        <result column="nick_name" property="nickName"/>
+        <result column="name" property="name"/>
+        <result column="avatar" property="avatar"/>
+        <result column="birthday" property="birthday"/>
+        <result column="sex" property="sex"/>
+        <result column="email" property="email"/>
+        <result column="phone" property="phone"/>
+        <result column="tel" property="tel"/>
+        <result column="status" property="status"/>
+        <result column="create_time" property="createTime"/>
+        <association property="sysEmpInfo" javaType="com.lplb.sys.modular.emp.result.SysEmpInfo">
+            <result column="job_num" property="jobNum"/>
+            <result column="org_id" property="orgId"/>
+            <result column="org_name" property="orgName"/>
+        </association>
+    </resultMap>
+
+    <!--获取用户分页列表-->
+    <select id="page" resultMap="sysUserResult">
+        select sys_user.*,
+               sys_emp.job_num,
+               sys_emp.org_id,
+               sys_emp.org_name
+        from sys_user
+                 left join sys_emp on sys_user.id = sys_emp.id
+                 left join sys_org on sys_emp.org_id = sys_org.id
+            ${ew.customSqlSegment}
+    </select>
+    <select id="list" resultMap="sysUserResult">
+        select sys_user.*,
+               sys_emp.job_num,
+               sys_emp.org_id,
+               sys_emp.org_name
+        from sys_user
+                 left join sys_emp on sys_user.id = sys_emp.id
+                 left join sys_org on sys_emp.org_id = sys_org.id
+            ${ew.customSqlSegment}
+    </select>
+    <select id="getUsersForProjectUserSave" resultType="java.util.Map">
+        SELECT
+        su.id AS userId
+        FROM
+        sys_user su
+        LEFT JOIN sys_user_role sur ON su.id=sur.user_id
+        WHERE
+        status=0
+        AND sur.role_id IS NOT NULL
+        AND su.admin_type=2
+        <if test="keyword != null and keyword != ''">
+            AND su.name LIKE CONCAT('%',#{keyword},'%')
+        </if>
+        <if test="users.size()>0">
+            AND su.id NOT IN
+            <foreach collection="users" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        GROUP BY userId
+    </select>
+    <select id="getUserByRoleCode" resultType="java.util.Map">
+        SELECT su.id   AS userId,
+               su.name AS userName
+        FROM sys_user su,
+             sys_user_role sur,
+             sys_role sr
+        WHERE su.id = sur.user_id
+          AND sur.role_id = sr.id
+          AND sr.code = #{roleCode}
+          AND su.status = 0
+    </select>
+
+    <select id="getUserNameByRoleCode" resultType="java.lang.String">
+        SELECT su.name AS userName
+        FROM sys_user su,
+             sys_user_role sur,
+             sys_role sr
+        WHERE su.id = sur.user_id
+          AND sur.role_id = sr.id
+          AND sr.code = #{roleCode}
+          AND su.status = 0
+    </select>
+    <select id="getOrgUserList" resultType="java.util.Map">
+        SELECT su.name AS userName, su.id AS userId
+        FROM sys_user su
+                 JOIN sys_emp se ON su.id = se.id AND se.org_id = #{orgId}
+        ORDER BY su.create_time DESC
+    </select>
+    <select id="userPage" resultType="java.util.Map">
+        SELECT
+        su.id AS id,
+        su.account AS account,
+        su.name AS name,
+        su.phone AS phone,
+        su.create_time AS createTime,
+        su.status AS status,
+        su.sex AS sex,
+        se.org_id AS orgId
+        FROM sys_user su
+        INNER JOIN sys_emp se ON su.id=se.id
+        <if test="orgId != null and orgId != ''">
+            AND se.org_id=#{orgId}
+        </if>
+        WHERE su.status!=2 AND su.admin_type=2
+        <if test="account != null and account != ''">
+            AND su.account LIKE CONCAT('%',#{account},'%')
+        </if>
+        <if test="name != null and name != ''">
+            AND su.name LIKE CONCAT('%',#{name},'%')
+        </if>
+        ORDER BY su.create_time DESC
+    </select>
+    <select id="getUserSelectList" resultType="com.lplb.sys.modular.user.result.SysUserResult">
+        SELECT su.id AS id, su.name AS name
+        FROM sys_user su
+                 INNER JOIN sys_emp se ON su.id = se.id AND se.org_id = #{param.orgId}
+        WHERE su.status=0
+        <if test="param.orgAdmin != true">
+            AND su.id=#{param.id}
+        </if>
+    </select>
+</mapper>

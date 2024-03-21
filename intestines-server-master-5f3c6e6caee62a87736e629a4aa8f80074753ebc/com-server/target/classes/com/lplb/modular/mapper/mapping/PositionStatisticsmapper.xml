@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lplb.modular.mapper.PositionStatisticsMapper">
+
+    <select id="position" resultType="com.lplb.modular.model.vo.StatisticsVo">
+        SELECT
+            p.position_name AS `key`,
+            COUNT(p.position_name) AS `value`
+        FROM in_position_statistics p
+        GROUP BY p.position_name
+        ORDER BY p.position_name
+    </select>
+</mapper>
+

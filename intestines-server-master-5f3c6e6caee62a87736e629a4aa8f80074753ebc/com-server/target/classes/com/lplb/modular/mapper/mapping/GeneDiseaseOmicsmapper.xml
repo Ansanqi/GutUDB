@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lplb.modular.mapper.GeneDiseaseOmicsMapper">
+
+    <select id="intestinalDiseases" resultType="com.lplb.modular.model.vo.StatisticsVo">
+        SELECT
+            m.disease AS `key`,
+            COUNT(m.disease) AS `value`
+        FROM in_gene_disease_omics m
+        WHERE m.disease != 'NA'
+        GROUP BY m.disease
+    </select>
+</mapper>
+

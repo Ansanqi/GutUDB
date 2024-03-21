@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lplb.sys.modular.org.mapper.SysOrgLeaderMapper">
+
+    <select id="getOrgLeader" resultType="java.lang.Long">
+        SELECT user_id FROM sys_org_leader WHERE org_id=#{orgId} AND deleted=0 GROUP BY user_id
+    </select>
+    <select id="getOrgLeaderInfo" resultType="java.util.Map">
+        SELECT sol.leader_id AS leaderId,su.id AS userId,su.name AS userName FROM sys_org_leader sol,sys_user su WHERE sol.user_id=su.id ANd su.status=0 AND sol.org_id=#{orgId} AND sol.deleted=0
+    </select>
+</mapper>
+

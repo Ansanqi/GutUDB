@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lplb.sys.modular.org.mapper.SysOrgMapper">
+
+    <select id="getAllOrgNames" resultType="java.lang.String">
+        SELECt name
+        FROM sys_org
+    </select>
+    <select id="getOrgByNameAndCode" resultType="com.lplb.sys.modular.org.entity.SysOrg">
+        SELECT *
+        FROM sys_org
+        WHERE CONCAT(name, '(', code, ')') = #{str}
+        LIMIT 1
+    </select>
+    <select id="getOrgPage" resultType="java.util.Map">
+        SELECT
+        so.id AS id,
+        so.name AS name,
+        so.code AS code,
+        so.create_time AS createTime,
+        so.status AS status,
+        so.remark AS remark,
+        so.sort AS sort
+        FROM sys_org so
+        WHERE so.pid != 0 AND so.status!=2
+        <if test="name != null and name != ''">
+            AND so.name LIKE CONCAT('%',#{name},'%')
+        </if>
+    </select>
+    <select id="getSelectList" resultType="java.util.Map">
+        SELECT id AS orgId, name AS orgName
+        FROM sys_org
+        WHERE status = 0 AND pid != 0
+          AND id != #{orgId}
+    </select>
+    <select id="getAdOrgList" resultType="com.lplb.sys.modular.org.entity.SysOrg">
+        SELECT *
+        FROM sys_org so
+        WHERE so.pid!=0 AND so.status=0
+    </select>
+</mapper>

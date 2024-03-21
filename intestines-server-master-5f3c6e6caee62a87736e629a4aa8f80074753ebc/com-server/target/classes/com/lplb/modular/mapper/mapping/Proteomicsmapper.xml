@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lplb.modular.mapper.ProteomicsMapper">
+
+    <select id="proteinStatistics" resultType="com.lplb.modular.model.vo.StatisticsVo">
+        SELECT
+            m.protein_name AS `key`,
+            COUNT(m.protein_name) AS `value`
+        FROM in_proteomics m
+        WHERE m.protein_name != 'NA'
+        GROUP BY m.protein_name
+        ORDER BY `value` DESC
+    </select>
+</mapper>
+

@@ -1,0 +1,141 @@
+.content {
+	height: 815px;
+	display: flex;
+	background: #f2f4f6;
+	box-shadow: 0px 12px 108px 0px rgba(112, 112, 112, 0.24);
+	padding: 0;
+	.l {
+		width: 382px;
+		background-color: #fff;
+		border-right: 1px solid $separatorColor;
+		.tips {
+			margin-top: 20px;
+			font-size: $fontSize18;
+			margin-left: 30px;
+			margin-bottom: 20px;
+			.iconfont {
+				background-color: rgba(0, 192, 201, 0.1);
+				border-radius: 50%;
+				font-size: $fontSize20;
+				padding: 5px;
+				margin-right: 8px;
+				color: $themeColor;
+			}
+		}
+		.list {
+			padding: 0 30px;
+			.item {
+				margin-top: 15px;
+				.el-text {
+					width: 100%;
+					color: #333;
+					line-height: 39px;
+					border: none;
+					padding: 0 10px;
+					border-radius: 4px;
+					border: 1px solid #efefef;
+					&:hover {
+						color: $themeColor;
+						cursor: pointer;
+						border-color: $themeColor;
+					}
+				}
+			}
+		}
+	}
+	.r {
+		flex: 1;
+		display: flex;
+		flex-direction: column;
+		.list {
+			padding: 20px;
+			flex: 1;
+			overflow-y: auto;
+			.tips {
+				height: 100%;
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+				align-items: center;
+				text-align: center;
+				color: $themeColor;
+				font-weight: bold;
+				margin-top: 200px;
+				.el-button {
+					color: #333;
+					background-color: rgb(3 147 174 / 11%);
+					border: none;
+					font-size: $fontSize18;
+					&:hover {
+						color: #0493ae;
+					}
+					.iconfont{
+						color: $themeColor;
+						margin-right: 10px;
+						font-size: $fontSize28;
+					}
+				}
+			}
+			.item {
+				display: flex;
+				align-items: center;
+				line-height: 2;
+				&.me {
+					justify-content: flex-end;
+				}
+				&.chat {
+					.title {
+						color: $themeColor;
+					}
+				}
+
+				.img {
+					align-self: normal;
+					display: flex;
+					align-items: center;
+					justify-content: center;
+					min-width: 30px;
+					min-height: 30px;
+					width: 30px;
+					height: 30px;
+					border-radius: 50%;
+					img {
+						min-width: 16px;
+					}
+				}
+			}
+		}
+		.footer {
+			padding: 15px 30px;
+			background-color: #fff;
+			position: relative;
+			display: flex;
+			align-items: center;
+			font-size: $fontSize18;
+			.el-textarea {
+				::v-deep(.el-textarea__inner) {
+					background: #f2f4f6 !important;
+					min-height: 40px !important;
+					line-height: 40px;
+				}
+			}
+			.send {
+				margin-left: 12px;
+				width: 116px;
+				height: 50px;
+				display: flex;
+				letter-spacing: 2px;
+				align-items: center;
+				justify-content: center;
+				background: rgba(0, 192, 201, 0.1);
+				border-radius: 4px;
+				cursor: pointer;
+				.iconfont {
+					font-size: $fontSize22;
+					margin-right: 5px;
+					color: $themeColor;
+				}
+			}
+		}
+	}
+}

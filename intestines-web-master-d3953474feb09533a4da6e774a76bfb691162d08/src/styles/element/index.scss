@@ -1,0 +1,57 @@
+/* 只需要重写你需要的即可 */
+@forward "element-plus/theme-chalk/src/common/var.scss" with (
+	$colors: (
+		"primary": (
+			// 主色
+			"base": #00c0c9,
+		),
+		"success": (
+			// 成功色
+			"base": #1dc779,
+		),
+		"warning": (
+			// 警告色
+			"base": #fecd2f,
+		),
+		"danger": (
+			// 危险色
+			"base": #e26237,
+		),
+		"error": (
+			// 错误色
+			"base": #cf4444,
+		),
+	),
+	$common-component-size: (
+		"large": 52px,
+		"default": 52px,
+	),
+	$input-height: (
+		"default": 52px,
+	),
+	$input-font-size: (
+		"large": 18px,
+	),
+	$table: (
+		"header-text-color": #4c4c4c,
+		"text-color": #4c4c4c,
+		"current-row-bg-color": #f2fbfb,
+	),
+	$table-font-size: (
+		"default": 14px,
+	),
+	$pagination: (
+		"font-size": 14px,
+		// "button-width": 40px,
+		// "button-height": 40px,
+		"pagination-button-color": #333,
+		"button-bg-color": #ffffff,
+		"border-radius": 4px,
+	),
+	$input: (
+		"focus-border-color": #00c0c9,
+	),
+	$select: (
+		"input-focus-border-color": #00c0c9,
+	)
+);

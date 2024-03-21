@@ -1,0 +1,150 @@
+.el-tabs,
+.el-backtop {
+	color: $themeColor;
+	::v-deep(.el-tabs__active-bar) {
+		background-color: $themeColor;
+	}
+	::v-deep(.el-tabs__item) {
+		color: $themeColor !important;
+	}
+}
+
+.my-nav {
+	margin-bottom: 42px;
+	span {
+		color: #333;
+		cursor: pointer;
+		font-weight: bold;
+		margin-right: 30px;
+		padding-bottom: 7px;
+		&.active {
+			border-bottom: 5px solid $themeColor;
+		}
+	}
+}
+.my-search {
+	position: relative;
+	margin-bottom: 30px;
+	font-size: $fontSize18;
+	display: flex;
+
+	.el-input {
+		width: 400px;
+		box-sizing: border-box;
+		margin-right: 20px;
+		::v-deep(.el-input__inner) {
+			padding-right: 40px;
+		}
+	}
+	:has(span) {
+		cursor: pointer;
+		color: $themeColor;
+	}
+	.span{
+		position: absolute;
+		left: 370px;
+		top: 50%;
+		transform: translateY(-50%);
+		cursor: pointer;
+		color: $themeColor;
+	}
+	.search{
+		flex: 1;
+		margin-right: 50px;
+	}
+	.my-tsv {
+		align-self: flex-start;
+		display: flex;
+		align-items: center;
+		font-size: $fontSize16;
+		color: $themeColor;
+		cursor: pointer;
+		.iconfont {
+			font-size: $fontSize22;
+			margin-right: 5px;
+		}
+	}
+}
+.my-tsv2 {
+	display: flex;
+	align-items: center;
+	font-size: $fontSize20;
+	color: $themeColor;
+	cursor: pointer;
+	img {
+		width: 30px;
+		height: 30px;
+		margin-right: 2px;
+	}
+}
+.my-table {
+	font-size: $fontSize14;
+	.table-link {
+		color: $themeColor;
+		// font-weight: bold;
+		text-decoration: none;
+	}
+	::v-deep(.el-popper) {
+		max-width: 50%;
+	}
+	::v-deep(.el-table__inner-wrapper) {
+		.el-table__header {
+			font-family: "AlibabaPuHuiTi-Medium";
+			.el-table__cell {
+				background-color: $tableBg;
+			}
+			.cell {
+				display: flex;
+				align-items: center;
+				.el-icon {
+					margin-left: 5px;
+				}
+			}
+		}
+		.el-table__row--striped {
+			.el-table__cell {
+				background-color: $tableBg;
+			}
+		}
+
+		.cell {
+			.amp {
+				color: #375093;
+			}
+			.homdel {
+				color: #c9372d;
+			}
+		}
+		.el-table__cell {
+			// &:has(.cell) {
+			// 	&:has(.bg1) {
+			// 		background-color: #ffd2a2;
+			// 	}
+			// 	&:has(.bg2) {
+			// 		background-color: #ffbc73;
+			// 	}
+			// 	&:has(.bg3) {
+			// 		background-color: #ffa545;
+			// 	}
+			// 	&:has(.bg4) {
+			// 		background-color: #ff8f16;
+			// 	}
+			// }
+			padding: 0;
+			.cell {
+				padding: 8px 12px;
+				&:has(.c) {
+					padding: 0;
+				}
+				.c {
+					width: 100%;
+					height: 100%;
+					padding: 8px 12px;
+					color: #fff;
+					display: flex;
+					background-color: var(--color);
+				}
+			}
+		}
+	}
+}

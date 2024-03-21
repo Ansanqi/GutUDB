@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lplb.sys.modular.log.mapper.SysVisLogMapper">
+
+    <select id="getVisLogPage" resultType="java.util.Map">
+        SELECT
+               svl.id AS id,
+               svl.vis_type AS visType,
+               svl.vis_time AS visTime,
+               svl.name AS name,
+               svl.ip AS ip,
+               svl.browser AS browser,
+               svl.success AS success,
+               svl.message AS message,
+               svl.os AS os,
+               su.name AS userName,
+               su.account AS account
+        FROM
+        sys_vis_log svl
+            INNER JOIN sys_user su ON svl.account=su.account
+            <if test="account != null and account != ''">
+                AND su.account=#{account}
+            </if>
+        WHERE 1=1
+        <if test="visType != null and visType != ''">
+            AND svl.vis_type=#{visType}
+        </if>
+        <if test="success != null and success != ''">
+            AND svl.success = #{success}
+        </if>
+        <if test="userList.size()>0">
+            AND su.id IN
+            <foreach collection="userList" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="startTime != null and startTime != '' and endTime != null and endTime != ''">
+            <if test='_databaseId=="mysql"'>
+                AND DATE_FORMAT(svl.vis_time,'%Y-%m-%d') BETWEEN #{startTime} AND #{endTime}
+            </if>
+        </if>
+        ORDER BY svl.vis_time DESC
+    </select>
+</mapper>

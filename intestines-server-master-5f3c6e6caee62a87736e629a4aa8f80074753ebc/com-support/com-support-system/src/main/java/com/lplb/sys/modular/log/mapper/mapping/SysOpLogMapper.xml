@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lplb.sys.modular.log.mapper.SysOpLogMapper">
+
+    <select id="getOpLogPage" resultType="java.util.Map">
+        SELECT
+        sol.id AS id,
+        sol.name AS name,
+        sol.op_type AS opType,
+        sol.success AS success,
+        sol.ip AS ip,
+        sol.op_time AS opTime,
+        su.name AS userName,
+        su.account AS account,
+        sol.browser AS browser,
+        sol.os AS os,
+        message AS message
+        FROM
+        sys_op_log sol
+        INNER JOIN sys_user su ON sol.account=su.account
+        <if test="account != null and account != ''">
+            AND su.account=#{account}
+        </if>
+        WHERE 1=1
+        <if test="logName != null and logName != ''">
+            AND sol.name LIKE CONCAT('%',#{logName},'%')
+        </if>
+        <if test="userList.size()>0">
+            AND su.id IN
+            <foreach collection="userList" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="opType != null and opType != ''">
+            AND sol.op_type = #{opType}
+        </if>
+        <if test="success != null and success != ''">
+            AND sol.success = #{success}
+        </if>
+        <if test="startTime != null and startTime != '' and endTime != null and endTime != ''">
+            AND DATE_FORMAT(sol.op_time,'%Y-%m-%d') BETWEEN #{startTime} AND #{endTime}
+        </if>
+        ORDER BY
+        sol.op_time DESC
+    </select>
+</mapper>
