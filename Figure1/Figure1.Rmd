@@ -1,0 +1,313 @@
+---
+title: "Figure1"
+author: "Ansanqi"
+date: "2024-03-26"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+# Load setting and functions
+setwd("D:/R数据/rmd")
+# Set output directory
+output_dir="./"
+
+```
+
+###Figure1C
+```{r Figure1C, include=FALSE}
+library(ggplot2)
+library(ggthemes)
+data<- read.csv("Figure1C.csv",row.names = 1,header = T)
+for(gene_name in rownames(data)){   
+  gene_expr<-data[gene_name,] 
+  gene_df<-data.frame(sample_name=names(gene_expr),Exp_value=as.numeric(gene_expr))
+  ggplot(data=gene_df,mapping=aes(x=sample_name,y=Exp_value,fill=Exp_value))+
+    geom_bar(stat="identity",width = 0.66,just=0.5)+
+    ggtitle(paste(gene_name,"Expression Profile(GTEx)"))+
+    theme_bw()+ 
+    scale_color_distiller(palette = "Blues")+
+    xlab("Tissue")+
+    ylab("Normalized log2(TPM) Expression Level")+
+    labs(fill="Exp Level")+
+    theme(axis.text.x = element_text(angle =60,hjust = 1), 
+          plot.title = element_text(hjust = 0.4,size=15))+  
+    theme(axis.line.x = element_line(color = "black",size=1.5), 
+          axis.line.y = element_line(color = "black",size=1.5))+
+    theme(axis.title.x = element_text(size=12),
+          axis.text.x = element_text(size =12),
+          axis.title.y = element_text(size=12),
+          axis.text.y = element_text(size =12))+
+    theme(panel.background = element_blank())+
+    theme (plot.title=element_text (hjust=0.5))
+  ggsave(paste0("./","METTL3_barplot",".pdf"),width = 7,height = 4)}
+
+```
+
+###Figure1D&Figure1E
+```{r Figure1D&Figure1E, include=FALSE}
+library(DESeq2)
+library(magrittr)
+library(dplyr)
+library(ggplot2)
+TPM_for_mat<- read.csv("Figure1D and Figure1E.csv")
+View(TPM_for_mat)
+head(TPM_for_mat)
+TPM_for_mat <- na.omit(TPM_for_mat)
+colnames(TPM_for_mat)<- c(rep("Case",41)  ,  rep("Control",41))
+col_1 <- 1
+col_2<- 41
+col_3<- 42
+col_4 <- 82
+col_5 <-83
+boxplot( as.numeric(TPM_for_mat[1,c(col_1:col_2)] ), as.numeric( TPM_for_mat[1,c(col_3:col_4)] ) , col= c("#d15034", "#f1ae2d" ) ,
+         names= c("case","normal"), ylab="Gene expression level of TPM" )
+
+####T test#####
+stastics<-  t.test( as.numeric(TPM_for_mat[1,c(col_1:col_2)] ), as.numeric( TPM_for_mat[1,c(col_3:col_4)] )) 
+FC<-  log2( mean( as.numeric(TPM_for_mat[1,c(col_1:col_2)] ))/mean(  as.numeric( TPM_for_mat[1,c(col_3:col_4)] ))  +1)
+plist<- stastics$p.value
+for (i in 2:dim(TPM_for_mat)[1]) {
+  plist <- c(plist, t.test( as.numeric(TPM_for_mat[i,c(col_1:col_2)] ), as.numeric( TPM_for_mat[i,c(col_3:col_4)] ))$p.value  ) #
+  FC <- c(FC,log2( mean( as.numeric(TPM_for_mat[i,c(col_3:col_4)] ))/mean(  as.numeric( TPM_for_mat[i,c(col_1:col_2)] ))  +1) )
+}
+dim(TPM_for_mat)
+cbind(TPM_for_mat, plist,FC)
+TPM_FC <- cbind(TPM_for_mat, plist,FC)
+write.csv(TPM_FC,"Figure1D and Figure1E_exp.csv",row.names =F)
+####Difference analysis#####
+for (i in 1:dim(TPM_for_mat)[1]) {
+  pdf(paste("./",TPM_for_mat[,col_5][i],"_boxplot.pdf") )
+  boxplot( as.numeric(TPM_for_mat[i,c(col_1:col_2)] ), as.numeric( TPM_for_mat[i,c(col_3:col_4)] ) , col= c("#d15034", "#f1ae2d" ) ,
+           names= c("case","normal"), ylab="Gene expression level of TPM" , ylim= c( min(as.numeric(TPM_for_mat[i,c(col_1:col_4)] )), max(as.numeric(TPM_for_mat[i,c(col_1:col_4)] ))+2 ) )
+  legend("topleft", legend = paste("P =", round(t.test( as.numeric(TPM_for_mat[i,c(col_1:col_2)] ), as.numeric( TPM_for_mat[i,c(col_3:col_4)] ))$p.value ,5)  ) , bty = "n"  )
+  dev.off()
+}
+#####Cross regression calculates the correlation between the experimental group and the control group for each gene######
+tempp<- cor.test( as.numeric(TPM_for_mat[1,c(col_1:col_2)] ), as.numeric( TPM_for_mat[1,c(col_3:col_4)] ))$p.value
+tempr<- cor.test( as.numeric(TPM_for_mat[1,c(col_1:col_2)] ), as.numeric( TPM_for_mat[1,c(col_3:col_4)] ))$estimates
+namei<- c("case")
+namej<-  c("control")
+num<- 1
+for (i in 1:dim(TPM_for_mat)[1]) {
+  tempp<- c(tempp,cor.test( as.numeric(TPM_for_mat[i,c(col_1:col_2)] ), as.numeric( TPM_for_mat[i,c(col_3:col_4)] ))$p.value )
+  tempr<- c(tempr,cor.test( as.numeric(TPM_for_mat[i,c(col_1:col_2)] ), as.numeric( TPM_for_mat[i,c(col_3:col_4)] ))$estimates )
+  pdf(paste("./",TPM_for_mat[,col_5][i],"_dot.pdf") )
+  plot( as.numeric(TPM_for_mat[i,c(col_1:col_2)] ), as.numeric( TPM_for_mat[i,c(col_3:col_4)] ) , pch=16
+        , xlab= ("Gene expression level of case") , ylab=( "Gene expression level of control")   )
+  legend("topleft", legend = round( cor.test( as.numeric(TPM_for_mat[i,c(col_1:col_2)] ), as.numeric( TPM_for_mat[i,c(col_3:col_4)] ))$estimate,5) , bty = "n"  )
+  dev.off()
+}
+```
+
+
+###Figure1F
+```{r Figure1F, include=FALSE}
+library(survival)
+logfile <- paste("logs.txt", sep="/")
+filepath <- list.dirs(recursive=FALSE)
+logs <- file(logfile, open="a")
+writeLines(format(Sys.time(), "%a %b %d %X %Y"), logs)
+writeLines("============================================================", logs)
+
+for (i in c(1:length(filepath))) {
+	time_start <- Sys.time()
+	writeLines(paste("In directory: \"", filepath[i], "\"", sep=""), logs);
+	cancer_name <- strsplit(strsplit(filepath[i], "[", fixed=TRUE)[[1]][2], "]")[[1]]
+	expr_matrix_name <- paste(cancer_name, "COAD_genes_normalized_results.rsem", sep="")
+	clinical_data_name <- paste(cancer_name, "COAD_tcga_clinical_data.tsv", sep="")
+	expr_matrix_path <- paste(filepath[i], expr_matrix_name, sep="/")
+	clinical_data_path <- paste(filepath[i], clinical_data_name, sep="/")
+	if (!file.exists(expr_matrix_path) | !file.exists(clinical_data_path)) {
+		writeLines("  No gene expression matrix or clinical data", logs)
+		next
+	}
+	writeLines("==>Reading gene expression matrix", logs)
+	expr_matrix <- read.table(file=expr_matrix_path, header=TRUE, stringsAsFactors=FALSE, sep="\t")
+	writeLines("==>Reading clinical data", logs)
+	clinical_data <- read.table(file=clinical_data_path, header=TRUE, stringsAsFactors=FALSE, sep="\t")
+	clinical_sample_ID <- as.character(clinical_data[,"Sample.ID"])
+	for (j in c(1:length(clinical_sample_ID))) {
+		clinical_sample_ID[j] <- gsub("-", "_", clinical_sample_ID[j])
+	}
+	rownames(clinical_data) <- clinical_sample_ID;
+	clinical_data <- clinical_data[clinical_data[,"Sample.Type"] == "Primary Tumor",]
+	clinical_data <- clinical_data[!is.na(clinical_data[,"Overall.Survival.Months"]),]
+	clinical_data <- clinical_data[!is.na(clinical_data[,"Overall.Survival.Status"]),]
+	if (length(rownames(clinical_data)) == 0) {
+		writeLines("  Filtered clinical data is empty", logs)
+		next
+	}
+	surv_result_path <- paste(filepath[i], "/", cancer_name, "_survival_results_median", sep="")
+	if (!file.exists(surv_result_path)) {
+		writeLines(paste("==>Create directory \"", surv_result_path, "\"", sep=""), logs)
+		dir.create(surv_result_path)
+	}
+	writeLines("==>Data matching in gene expression matrix and clinical data", logs)
+	select_expr_matrix_name <- intersect(colnames(expr_matrix), rownames(clinical_data))
+	select_sample_num <- length(select_expr_matrix_name)
+	if (!is.na(match("Patient.Height", colnames(clinical_data))) & !is.na(match("Patient.Weight", colnames(clinical_data)))) {
+		hasBMI <- TRUE
+		select_clinical_data <- clinical_data[, c("Overall.Survival.Months", "Overall.Survival.Status",
+			"Person.Gender", "Diagnosis.Age", "Patient.Height", "Patient.Weight")]
+	}
+	else {
+		hasBMI <- FALSE
+		select_clinical_data <- clinical_data[, c("Overall.Survival.Months", "Overall.Survival.Status", 
+			"Person.Gender", "Diagnosis.Age")]
+	}
+	select_clinical_data <- select_clinical_data[select_expr_matrix_name,]
+	for (j in c(1:select_sample_num)) {
+		# LIVING: 0; DECEASED: 1
+		if (select_clinical_data[j,"Overall.Survival.Status"] == "LIVING") {
+			select_clinical_data[j,"Overall.Survival.Status"] <- 0
+		}
+		else {
+			select_clinical_data[j,"Overall.Survival.Status"] <- 1
+		}
+		# FEMALE: 0; MALE: 1
+		if (select_clinical_data[j,"Person.Gender"] == "FEMALE") {
+			select_clinical_data[j,"Person.Gender"] <- 0
+		}
+		else {
+			select_clinical_data[j,"Person.Gender"] <- 1
+		}
+	}
+	select_expr_matrix <- expr_matrix[,select_expr_matrix_name]
+	select_expr_matrix <- log2(select_expr_matrix+1)
+	select_expr_matrix$Mean <- apply(select_expr_matrix, 1, mean)
+	select_expr_matrix$Median <- apply(select_expr_matrix, 1, median)
+	select_expr_matrix <- select_expr_matrix[select_expr_matrix$Mean > 0,]
+	select_expr_matrix <- select_expr_matrix[select_expr_matrix$Median > 0,]
+	select_gene_name <- expr_matrix[rownames(select_expr_matrix),1:2]
+	gene_num <- length(rownames(select_gene_name))
+	dif <- data.frame(HR=c(1:gene_num), lowCI=c(1:gene_num), highCI=c(1:gene_num), Pval=c(1:gene_num), FDR=c(1:gene_num),
+		HR_Adj=c(1:gene_num), lowCI_Adj=c(1:gene_num), highCI_Adj=c(1:gene_num), Pval_Adj=c(1:gene_num), FDR_Adj=c(1:gene_num))
+	dif <- cbind(select_gene_name, dif)
+	rownames(dif) <- rownames(select_gene_name)
+	surv_data <- data.frame(Class=c(1:select_sample_num))
+	rownames(surv_data) <- select_expr_matrix_name
+	surv_data <- cbind(surv_data, select_clinical_data)
+	if (hasBMI == TRUE) {
+		colnames(surv_data) <- c("Class", "Month", "Status", "Sex", "Age", "Height", "Weight")
+	}
+	else {
+		colnames(surv_data) <- c("Class", "Month", "Status", "Sex", "Age")
+	}
+	surv_data <- surv_data[surv_data$Month > 0,]
+	writeLines("==>Running Kaplan-Meier analysis and Proportional Hazards regression", logs)
+	if (hasBMI == TRUE) {
+		writeLines("---->Crude Model: coxph(Surv(Month, Status) ~ Class)", logs)
+		writeLines("---->Adjusted Model: coxph(Surv(Month, Status) ~ Class + Sex + Age + BMI)", logs)
+	}
+	else {
+		writeLines("---->Crude Model: coxph(Surv(Month, Status) ~ Class)", logs)
+		writeLines("---->Adjusted Model: coxph(Surv(Month, Status) ~ Class + Sex + Age)", logs)
+	}
+	for (j in c(1:length(rownames(select_expr_matrix)))) {
+		select_gene_expr <- select_expr_matrix[j,]
+		select_gene_symbol <- as.character(select_gene_name$Symbol[j])
+		select_gene_entrez <- as.character(select_gene_name$Entrez[j])
+		for (k in c(1:length(rownames(surv_data)))) {
+			# RSEM < Median: 0; RSEM >= Median: 1
+			if (select_gene_expr[1,k] < select_gene_expr$Median) {
+				surv_data$Class[k] <- 0
+			}
+			else {
+				surv_data$Class[k] <- 1
+			}
+		}
+		Month <- as.numeric(surv_data$Month)
+		Status <- as.numeric(surv_data$Status)
+		Sex <- as.numeric(surv_data$Sex)
+		Age <- as.numeric(surv_data$Age)
+		Class <- as.numeric(surv_data$Class)
+		# Kaplan-Meier test
+		fit <- survfit(Surv(Month, Status) ~ Class)
+		# Unadjusted
+		reg_1 <- coxph(Surv(Month, Status) ~ Class)
+		# Adjusted Sex, Age and BMI
+		if (hasBMI == TRUE) {
+			BMI <- as.numeric(surv_data$Weight) / (as.numeric(surv_data$Height) / 100) ^ 2
+			reg_2 <- coxph(Surv(Month, Status) ~ Class + Sex + Age + BMI)
+		}
+		else {
+			reg_2 <- coxph(Surv(Month, Status) ~ Class + Sex + Age)
+		}
+		dif$HR[j] <- signif(summary(reg_1)$conf.int[1,1], 4)
+		dif$lowCI[j] <- signif(summary(reg_1)$conf.int[1,3], 4)
+		dif$highCI[j] <- signif(summary(reg_1)$conf.int[1,4], 4)
+		dif$Pval[j] <- signif(summary(reg_1)$coefficients[1,5], 4)
+		dif$HR_Adj[j] <- signif(summary(reg_2)$conf.int[1,1], 4)
+		dif$lowCI_Adj[j] <- signif(summary(reg_2)$conf.int[1,3], 4)
+		dif$highCI_Adj[j] <- signif(summary(reg_2)$conf.int[1,4], 4)
+		dif$Pval_Adj[j] <- signif(summary(reg_2)$coefficients[1,5], 4)
+		if (dif$Pval[j] > 0.05) {
+			next
+		}
+		if (select_gene_symbol != "?") {
+			filename <- paste(surv_result_path, "/", select_gene_symbol, ".png", sep="")
+			png_title <- select_gene_symbol
+		}
+		else {
+			filename <- paste(surv_result_path, "/", select_gene_entrez, ".png", sep="")
+			png_title <- select_gene_entrez
+		}
+		png_title <- paste(png_title, " (HR=", as.character(dif$HR[j]), ", Pval=", as.character(dif$Pval[j]), ")", sep="")
+		low_num <- length(surv_data[surv_data$Class==0,]$Class)
+		high_num <- length(surv_data[surv_data$Class==1,]$Class)
+		png(filename=filename, height=600, width=600);
+		par(mar=c(5, 5, 4, 1))
+		plot(fit, main=png_title, xlab="Months", ylab="Survival", lwd=3, col=c("#00BFC4", "#F8766D"), 
+			mark.time=TRUE, mark=16, cex.main=2, cex.lab=1.8, cex.axis=1.8)
+		leg_text <- c(paste("<", as.character(round(select_gene_expr$Median, 3)), " (", as.character(low_num), ")", sep=""),
+					  paste(">", as.character(round(select_gene_expr$Median, 3)), " (", as.character(high_num), ")", sep=""))
+		legend("topright", leg_text, col=c("#00BFC4", "#F8766D"), lwd=3, cex=1.8)
+		temp <- dev.off()
+	}
+	dif$FDR <- signif(p.adjust(dif$Pval, method="fdr"), 4)
+	dif$FDR_Adj <- signif(p.adjust(dif$Pval_Adj, method="fdr"), 4)
+	filename <- paste(surv_result_path, "/all_genes_survival_results.txt", sep="")
+	writeLines("==>Writing survival analysis results to file", logs)
+	write.table(dif, file=filename, quote=FALSE, sep="\t")
+	time_end <- Sys.time()
+	time_diff <- as.character.Date(time_end - time_start)
+	writeLines(paste("  Time difference of ", time_diff, sep=""), logs)
+}
+
+writeLines("", logs)
+close(logs)
+
+```
+
+
+###Figure1G
+```{r Figure1G, include=FALSE}
+library(ggplot2)
+library(ggthemes)
+data<- read.csv("Figure1G.csv",row.names = 1,header = T)
+
+for(gene_name in rownames(data)){ 
+  
+  gene_expr<-data[gene_name,] 
+  
+  gene_df<-data.frame(sample_name=names(gene_expr),Exp_value=as.numeric(gene_expr))
+  
+  ggplot(data=gene_df,mapping=aes(x=sample_name,y=Exp_value,fill=sample_name))+
+    geom_bar(stat="identity",width = 0.66,just=0.5)+
+    ggtitle(paste(gene_name,"Expression Profile"))+ 
+    xlab("")+
+    ylab("Expression Level")+ 
+    labs(fill="Cluster")+
+    theme(axis.text.x = element_text(angle =60,hjust = 1), 
+          plot.title = element_text(hjust = 0.4,size=12))+  
+    theme(axis.line.x = element_line(color = "black",size=0.5), 
+          axis.line.y = element_line(color = "black",size=0.5))+
+    theme(axis.title.x = element_text(size=11),
+          axis.text.x = element_text(size =8),
+          axis.title.y = element_text(size=11))+
+    theme(panel.background = element_blank())+
+    theme (plot.title=element_text (hjust=0.5))
+
+  ggsave(paste0("./","CNPY3",".pdf"),width = 7,height = 4)}
+
+```

@@ -1,0 +1,98 @@
+Tue May 26 02:02:26 PM 2020
+============================================================
+In directory: "/home/ansanqi/to_server/TCGA/TCGA_All_Cancer_3part//Lung squamous cell carcinoma [LUSC]"
+==>Reading gene expression matrix
+==>Reading clinical data
+==>Data matching in gene expression matrix and clinical data
+==>Running Kaplan-Meier analysis and Proportional Hazards regression
+---->Crude Model: coxph(Surv(Month, Status) ~ Class)
+---->Adjusted Model: coxph(Surv(Month, Status) ~ Class + Sex + Age)
+==>Writing survival analysis results to file
+  Time difference of 19.63785 mins
+In directory: "/home/ansanqi/to_server/TCGA/TCGA_All_Cancer_3part//Lung squamous cell carcinoma [LUSC]"
+==>Reading gene expression matrix
+==>Reading clinical data
+==>Create directory "/home/ansanqi/to_server/TCGA/TCGA_All_Cancer_3part//Lung squamous cell carcinoma [LUSC]/LUSC_survival_results_third2222"
+==>Data matching in gene expression matrix and clinical data
+==>Running Kaplan-Meier analysis and Proportional Hazards regression
+---->Crude Model: coxph(Surv(Month, Status) ~ Class)
+---->Adjusted Model: coxph(Surv(Month, Status) ~ Class + Sex + Age)
+==>Writing survival analysis results to file
+  Time difference of 0.8802612 secs
+==>Reading gene expression matrix
+==>Reading clinical data
+==>Data matching in gene expression matrix and clinical data
+In directory: "/home/ansanqi/to_server/TCGA/TCGA_All_Cancer_3part//Lung squamous cell carcinoma [LUSC]"
+==>Reading gene expression matrix
+==>Reading clinical data
+==>Data matching in gene expression matrix and clinical data
+==>Running Kaplan-Meier analysis and Proportional Hazards regression
+---->Crude Model: coxph(Surv(Month, Status) ~ Class)
+---->Adjusted Model: coxph(Surv(Month, Status) ~ Class + Sex + Age)
+==>Writing survival analysis results to file
+In directory: "/home/ansanqi/to_server/TCGA/TCGA_All_Cancer_3part//Lung squamous cell carcinoma [LUSC]"
+==>Reading gene expression matrix
+==>Reading clinical data
+==>Data matching in gene expression matrix and clinical data
+==>Running Kaplan-Meier analysis and Proportional Hazards regression
+---->Crude Model: coxph(Surv(Month, Status) ~ Class)
+---->Adjusted Model: coxph(Surv(Month, Status) ~ Class + Sex + Age)
+In directory: "/home/ansanqi/to_server/TCGA/TCGA_All_Cancer_3part//Lung squamous cell carcinoma [LUSC]"
+==>Reading gene expression matrix
+==>Reading clinical data
+==>Data matching in gene expression matrix and clinical data
+==>Running Kaplan-Meier analysis and Proportional Hazards regression
+---->Crude Model: coxph(Surv(Month, Status) ~ Class)
+---->Adjusted Model: coxph(Surv(Month, Status) ~ Class + Sex + Age)
+==>Writing survival analysis results to file
+  Time difference of 19.13595 secs
+In directory: "/home/ansanqi/to_server/TCGA/TCGA_All_Cancer_3part//Lung squamous cell carcinoma [LUSC]"
+==>Reading gene expression matrix
+==>Reading clinical data
+==>Data matching in gene expression matrix and clinical data
+==>Running Kaplan-Meier analysis and Proportional Hazards regression
+---->Crude Model: coxph(Surv(Month, Status) ~ Class)
+---->Adjusted Model: coxph(Surv(Month, Status) ~ Class + Sex + Age)
+In directory: "/home/ansanqi/to_server/TCGA/TCGA_All_Cancer_3part//Kidney renal papillary cell carcinoma [KIRP]"
+==>Reading gene expression matrix
+==>Reading clinical data
+==>Create directory "/home/ansanqi/to_server/TCGA/TCGA_All_Cancer_3part//Kidney renal papillary cell carcinoma [KIRP]/KIRP_survival_results_third2222"
+==>Data matching in gene expression matrix and clinical data
+==>Running Kaplan-Meier analysis and Proportional Hazards regression
+---->Crude Model: coxph(Surv(Month, Status) ~ Class)
+---->Adjusted Model: coxph(Surv(Month, Status) ~ Class + Sex + Age)
+周三 3月 27 19:13:31 2024
+============================================================
+In directory: "./Figure1_files"
+  No gene expression matrix or clinical data
+In directory: "./rmarkdown-main"
+  No gene expression matrix or clinical data
+
+周三 3月 27 19:14:48 2024
+============================================================
+In directory: "./Figure1_files"
+  No gene expression matrix or clinical data
+In directory: "./rmarkdown-main"
+  No gene expression matrix or clinical data
+
+周三 3月 27 19:15:25 2024
+============================================================
+In directory: "./Figure1_files"
+  No gene expression matrix or clinical data
+In directory: "./rmarkdown-main"
+  No gene expression matrix or clinical data
+
+周三 3月 27 19:20:20 2024
+============================================================
+In directory: "./Figure1_files"
+  No gene expression matrix or clinical data
+In directory: "./rmarkdown-main"
+  No gene expression matrix or clinical data
+
+周三 3月 27 19:20:36 2024
+============================================================
+In directory: "./Figure1_files"
+  No gene expression matrix or clinical data
+In directory: "./rmarkdown-main"
+  No gene expression matrix or clinical data
+
